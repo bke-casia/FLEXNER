@@ -5,7 +5,7 @@
 [![License](https://img.shields.io/badge/License-Apache%202.0-brightgreen.svg)](https://opensource.org/licenses/Apache-2.0)
 
 
-FlexNER is a toolkit of neural NER models designed to accelerate ML research. This version of the tutorial requires TensorFlow >=1.4. It is a preview. The detailed descriptions are still in the making.
+FlexNER is a toolkit of neural NER models designed to accelerate ML research. This version of the tutorial requires TensorFlow >=1.4. This is a stable version, see the [original version](https://github.com/liftkkkk/FLEXNER) for more information. 
 
 
 ### Contents
@@ -59,17 +59,45 @@ optional arguments:
 
   For the Baseline model
 ```
-python train.py -a base 
+bash run_n1.sh
 ```
 For the Joint training
 ```
-python train.py -a join
+python run_n1.sh with -g1=0 -r1=0 -g2=0 -r2=0
 ```
 For the separated training
 ```
-(1) python train.py -a join -r2 1 [-g2 1]
-(2) python train.py -a join -r1 1 [-g1 1] -mp model_path -m tune
-(3) python train.py -a join -g1 1 -g2 1 -mp model_path -m tune
+(1) bash run_n1.sh
+(2) bash run_n2.sh
+(3) bash run_n1.sh with -g1=1 -r1=0 -g2=1 -r2=0
+```
+
+### Addition
+#### Multi-lateral Network
+3 steps to build a simple multi-lateral NER architecture.
+```python
+class Bi_Stacka(Bi_NER):
+    # initialize the constructor
+    ...
+    
+    # define a arch.
+    def mix(self):
+        # 1. add the embeddings
+        self.base_embed=self.embedding_layer_base()
+		
+        # 2. define your arch.
+        encode1=self.mix_stacka('net1')
+        encode2=self.mix_stacka('net2')
+        encode3=self.mix_stacka('net3')
+        
+        # concatenate the vector
+         self.encode=tf.concat([encode1,encode2,encode3],axis=-1)
+
+        # additional process
+    	...
+    	
+    	# 3. add a crf layer
+    	self.crf_layer()
 ```
 
 ### Addition
@@ -117,10 +145,10 @@ These sub-networks can also be combined to asynchronously train different langua
 + NYT dataset [link](https://github.com/shanzhenren/CoType)  
 The augmented data set can be 3-10 times the original training data.
 
+More dataset could be found in [link](https://liftkkkk.github.io/FLEXNER/) 
 
 ## Updating...
-
-* 2017-Sep-10, Bi_NER v0.1, initial version
-* 2018-Apr-05, Bi_NER v0.2, supporting easily customizing architecture and attention mechanism
-* 2018-Nov-03, FlexNER v0.3, supporting different languages ( tested on English, German, Spanish, Dutch) and biomedical domain
 * 2019-Mar-20, FlexNER v0.3, reconstructing the code
+* 2018-Nov-03, FlexNER v0.3, support different languages ( tested on English, German, Spanish, Dutch and Chinese) and biomedical domain
+* 2018-Apr-05, Bi_NER v0.2, support easily customizing architecture and more attention mechanism
+* 2017-Sep-10, Bi_NER v0.1, initial version, present NER data augmentation 
