@@ -145,7 +145,7 @@ These sub-networks can also be combined to asynchronously train different langua
 + NYT dataset [link](https://github.com/shanzhenren/CoType)  
 The augmented data set can be 3-10 times the original training data.
 
-More dataset could be found in [link](https://liftkkkk.github.io/FLEXNER/) 
+More datasets could be found in [link](https://liftkkkk.github.io/FLEXNER/) 
 
 ## Updating...
 * 2019-Mar-20, FlexNER v0.3, reconstructing the code
