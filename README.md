@@ -100,33 +100,6 @@ class Bi_Stacka(Bi_NER):
     	self.crf_layer()
 ```
 
-### Addition
-#### Multi-lateral Network
-3 steps to build a simple multi-lateral NER architecture.
-```python
-class Bi_Stacka(Bi_NER):
-    # initialize the constructor
-    ...
-    
-    # define a arch.
-    def mix(self):
-        # 1. add the embeddings
-        self.base_embed=self.embedding_layer_base()
-		
-        # 2. define your arch.
-        encode1=self.mix_stacka('net1')
-        encode2=self.mix_stacka('net2')
-        encode3=self.mix_stacka('net3')
-        
-        # concatenate the vector
-         self.encode=tf.concat([encode1,encode2,encode3],axis=-1)
-
-        # additional process
-    	...
-    	
-    	# 3. add a crf layer
-    	self.crf_layer()
-```
 #### Language Correlation
 This framework can also be applied to multilingual research.   
 <span><img src="pic/lingual.png" width="350"> </span> <span>
